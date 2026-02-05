@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static'; // adapter-autoから変更
+import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -6,15 +6,14 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			pages: 'build', // ビルド先のフォルダ
+			pages: 'build',
 			assets: 'build',
-			fallback: '404.html', // SPAとして動かすなら重要
+			fallback: '404.html',
 			precompress: false,
-			strict: true
+			strict: false
 		}),
 		paths: {
-			// ユーザー名.github.io/リポジトリ名/ の形式なら以下が必要
-			// base: process.env.NODE_ENV === 'production' ? '/リポジトリ名' : '',
+			base: process.env.BASE_PATH || ''
 		}
 	}
 };
