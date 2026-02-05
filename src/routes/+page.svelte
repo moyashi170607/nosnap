@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+    import { base } from '$app/paths';
 
 	// bind:this を使うことで、getElementById も nullチェックも不要になります
 	let videoEl: HTMLVideoElement;
@@ -12,7 +13,7 @@
 		);
 
 		if (!isMobile) {
-			goto('/PC/'); // スマホ用ページへ飛ばす
+			goto(`${base}/PC/`); // スマホ用ページへ飛ばす
 		}
 	});
 
