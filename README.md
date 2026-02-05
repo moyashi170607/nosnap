@@ -1,5 +1,8 @@
 # のすチェキ
 
+# サイト
+https://moyashi170607.github.io/nosnap/
+
 ## 概要
 その場で撮った写真をその場でNostrに投稿しよう！
 
