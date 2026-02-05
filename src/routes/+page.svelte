@@ -13,7 +13,8 @@
 		);
 
 		if (!isMobile) {
-			goto(`${base}/PC/`); // スマホ用ページへ飛ばす
+            console.log(base)
+			//goto(`${base}/PC/`); // スマホ用ページへ飛ばす
 		}
 	});
 
@@ -24,5 +25,24 @@
 <h1>ノスナップ スマホ版</h1>
 
 <div>
-	<input type="file" capture="environment" accept="image/*" />
+    <label class="custom-camera-btn">
+    カメラで撮影！
+    <input type="file" capture="environment" accept="image/*" style="display:none;">
+    </label>
 </div>
+
+<style>
+.custom-camera-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* 好きなボタンの色 */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.custom-camera-btn:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+}
+</style>
