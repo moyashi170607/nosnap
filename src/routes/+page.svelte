@@ -11,31 +11,17 @@
 			navigator.userAgent
 		);
 
-		if (isMobile) {
-			goto('/mobile'); // スマホ用ページへ飛ばす
+		if (!isMobile) {
+			goto('/PC/'); // スマホ用ページへ飛ばす
 		}
 	});
-
-	async function startCamera() {
-		try {
-			const stream = await navigator.mediaDevices.getUserMedia({
-				video: { facingMode: 'user' }
-			});
-			// videoEl はこの時点で必ず存在するので安全
-			videoEl.srcObject = stream;
-		} catch (error) {
-			console.error('カメラの起動に失敗しました', error);
-		}
-	}
 
 	// マウント時に自動でカメラを起動したい場合はここ
 	// onMount(() => { startCamera(); });
 </script>
 
-<h1>ノスナップPC版</h1>
+<h1>ノスナップ スマホ版</h1>
 
 <div>
-	<button onclick={startCamera}>カメラを起動</button>
+	<input type="file" capture="environment" accept="image/*" />
 </div>
-
-<video bind:this={videoEl} width="640" height="480" autoplay playsinline></video>
