@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static'; // adapter-autoから変更
+import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,12 +8,11 @@ const config = {
 		adapter: adapter({
 			pages: 'build', // ビルド先のフォルダ
 			assets: 'build',
-			fallback: 'index.html', // SPAとして動かすなら重要
-			// precompress: false,
-			// strict: true
+			fallback: 'index.html',
+			precompress: false,
+			strict: true
 		}),
 		paths: {
-			// ユーザー名.github.io/リポジトリ名/ の形式なら以下が必要
 			base: process.env.NODE_ENV === 'production' ? '/nosnap' : '',
 		}
 	}
