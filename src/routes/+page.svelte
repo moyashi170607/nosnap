@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-	import { render } from 'svelte/server';
-	import { resolve } from 'path';
+	import { resolve } from '$app/paths';
 
 	let fileInput: HTMLInputElement | null = null;
 

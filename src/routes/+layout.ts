@@ -4,6 +4,6 @@
 export const prerender = true;
 export const ssr = false;
 
-import { tryLogin } from "$lib/nostr/login";
+import { tryLogin } from "$lib/nostr/auth/login";
 
 tryLogin();
