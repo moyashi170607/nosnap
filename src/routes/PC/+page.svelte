@@ -3,8 +3,9 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 
-	// bind:this を使うことで、getElementById も nullチェックも不要になります
-	let videoEl: HTMLVideoElement;
+	let cameraBtn: HTMLButtonElement | undefined = undefined;
+
+	let videoEl: HTMLVideoElement | undefined = undefined;
 
 	onMount(() => {
 		// 簡易的なスマホ判定（正規表現）
@@ -22,8 +23,10 @@
 			const stream = await navigator.mediaDevices.getUserMedia({
 				video: { facingMode: 'user' }
 			});
-			// videoEl はこの時点で必ず存在するので安全
-			videoEl.srcObject = stream;
+
+			if (videoEl != undefined) {
+				videoEl.srcObject = stream;
+			}
 		} catch (error) {
 			console.error('カメラの起動に失敗しました', error);
 		}
@@ -33,10 +36,20 @@
 	// onMount(() => { startCamera(); });
 </script>
 
-<h1>ノスナップPC版</h1>
+<h1 class="mb-5 text-center text-4xl">ノスナップPC版</h1>
 
-<div>
-	<button onclick={startCamera}>カメラを起動</button>
+<div class="text-center">
+	<button class="btn-camera" bind:this={cameraBtn} on:click={startCamera}> カメラを起動 </button>
 </div>
 
-<video bind:this={videoEl} width="640" height="480" autoplay playsinline></video>
+<video
+	bind:this={videoEl}
+	class="mr-auto ml-auto w-2/3 -scale-x-100 pt-20"
+	height="800"
+	autoplay
+	playsinline
+	muted
+></video>
+
+<style>
+</style>

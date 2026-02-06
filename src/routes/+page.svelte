@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { render } from 'svelte/server';
+	import { resolve } from 'path';
 
 	let fileInput: HTMLInputElement | null = null;
 
@@ -19,7 +21,8 @@
 		);
 
 		if (!isMobile) {
-			//goto(`${base}/PC/`); // スマホ用ページへ飛ばす
+			const URL = resolve('/PC/');
+			goto(URL); // スマホ用ページへ飛ばす
 		}
 	});
 </script>
