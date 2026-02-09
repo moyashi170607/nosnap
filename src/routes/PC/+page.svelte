@@ -2,13 +2,23 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { postImage } from '../../lib/nostr/post';
+	import { dataURLtoFile } from '../../lib/utils/dataURLtoFile';
 
+	//カメラを出すボタン
 	let cameraBtn: HTMLButtonElement | undefined = undefined;
 
+	//カメラの映像を流すvideoタグ
 	let videoEl: HTMLVideoElement | undefined = undefined;
+	//撮った写真を表示する枠
 	let canvasEl: HTMLCanvasElement | undefined = undefined;
+	//videoタグのストリーム
 	let stream: MediaStream | null = null;
+	//撮った写真のdataURL
 	let photoUrl: string | null = null;
+
+	//投稿内容を入力する場所
+	let content: string | null = null;
 
 	onMount(() => {
 		// 簡易的なスマホ判定（正規表現）
@@ -22,6 +32,7 @@
 		}
 	});
 
+	//カメラを起動する
 	async function startCamera() {
 		reset();
 		try {
@@ -37,16 +48,13 @@
 		}
 	}
 
+	//カメラを撮影
 	function takePhoto() {
 		if (videoEl && canvasEl) {
 			const context = canvasEl.getContext('2d');
 			// ビデオの解像度に合わせてキャンバスのサイズを設定
 			canvasEl.width = videoEl.videoWidth;
 			canvasEl.height = videoEl.videoHeight;
-
-			// 鏡面処理している場合は、キャンバスも反転させる
-			context?.translate(canvasEl.width, 0);
-			context?.scale(-1, 1);
 
 			// 現在の映像をキャンバスに描画
 			context?.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
@@ -58,6 +66,7 @@
 		}
 	}
 
+	//カメラを停止
 	function stopCamera() {
 		if (stream) {
 			stream.getTracks().forEach((track) => track.stop());
@@ -65,14 +74,31 @@
 		}
 	}
 
+	//カメラをリセット
 	function reset() {
 		photoUrl = null;
-		// 必要ならここで再度カメラを自動起動
-		// startCamera();
 	}
 
-	// マウント時に自動でカメラを起動したい場合はここ
-	// onMount(() => { startCamera(); });
+	//投稿ボタンを押されたとき
+	function post_btn_clicked() {
+		if (!photoUrl) return;
+
+		let cont: string = content ?? '';
+
+		let filename = 'nosnap';
+
+		let imageFile: File = dataURLtoFile(photoUrl, filename + Math.floor(Date.now() / 1000));
+
+		try {
+			const post_url = postImage(imageFile, cont);
+
+			alert('投稿しました');
+			reset();
+		} catch (error) {
+			console.error('投稿エラー:', error);
+			alert('投稿に失敗');
+		}
+	}
 </script>
 
 <h1 class="mb-5 text-center text-4xl">ノスナップPC版</h1>
@@ -104,9 +130,13 @@
 	<div class="mt-10 text-center">
 		<h2 class="mb-2 text-xl">撮れた写真</h2>
 		<img src={photoUrl} alt="Captured" class="mx-auto max-w-sm border-4 border-white shadow-lg" />
-		<a href={photoUrl} download="snap.png" class="mt-4 inline-block text-blue-500 underline">
-			画像を保存する
-		</a>
+		<p class="mb-1">
+			画像と一緒に投稿する内容：<br />
+			<textarea name="comment" cols="50" rows="5" bind:value={content}></textarea>
+		</p>
+		<div class="mb-5 text-center">
+			<button class="btn-camera" on:click={post_btn_clicked}> 投稿 </button>
+		</div>
 	</div>
 {/if}
 

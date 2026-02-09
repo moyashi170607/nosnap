@@ -5,5 +5,18 @@ export const prerender = true;
 export const ssr = false;
 
 import { tryLogin } from "$lib/nostr/auth/login";
+import { LoginState } from "../lib/nostr/auth/authStore";
 
-tryLogin();
+const LOGIN_RESULT: LoginState = await tryLogin();
+
+switch (LOGIN_RESULT) {
+    case LoginState.LOGGED_IN_NIP07:
+        break;
+
+    case LoginState.LOGGED_IN_SECKEY:
+        break;
+
+    case LoginState.LOGGED_OUT:
+        break;
+}
+
