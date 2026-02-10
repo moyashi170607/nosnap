@@ -39,7 +39,7 @@ export async function postImage(imageFile: File, content: string) {
     }
 
     if (get(loginType) != LoginState.LOGGED_OUT) {
-        const RELAYS = relayListManager.readList
+        const RELAYS = relayListManager.writeList
         await Promise.any(pool.publish(RELAYS, signedEvent))
     }
 }
