@@ -1,3 +1,13 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+@layer components {
+  .btn-camera {
+    @apply inline-block px-5 py-2.5 bg-[#007bff] text-white rounded-[5px] cursor-pointer font-bold text-center transition-colors hover:bg-[#0056b3] disabled:cursor-not-allowed disabled:opacity-70 disabled:bg-gray-600;
+  }
+
+  .btn-primary{
+    @apply text-base inline-block p-2.5 m-2.5 bg-blue-600 text-white rounded-[5px] cursor-pointer font-bold text-center transition-colors hover:bg-[#0056b3] disabled:cursor-not-allowed disabled:opacity-70 disabled:bg-gray-600
+  }
+}
